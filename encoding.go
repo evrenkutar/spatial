@@ -7,8 +7,10 @@ import (
 	"math"
 )
 
-func Decode(points string, precision float64) []Point {
+func Decode(points string, precision int) []Point {
 	var lat, lng int64
+
+	factor := math.Pow10(precision)
 	input := bytes.NewBufferString(points)
 	path := []Point{}
 
@@ -24,21 +26,22 @@ func Decode(points string, precision float64) []Point {
 
 		lat, lng = lat+dlat, lng+dlng
 		path = append(path, Point{
-			Lat: float64(lat) / precision,
-			Lng: float64(lng) / precision,
+			Lat: float64(lat) / factor,
+			Lng: float64(lng) / factor,
 		})
 	}
 }
 
-func Encode(path []Point, precision float64) string {
+func Encode(path []Point, precision int) string {
 	var prevLat, prevLng int64
 
+	factor := math.Pow10(precision)
 	out := new(bytes.Buffer)
 	out.Grow(len(path) * 4)
 
 	for _, p := range path {
-		lat := int64(math.Floor(p.Lat*precision + 0.5))
-		lng := int64(math.Floor(p.Lng*precision + 0.5))
+		lat := int64(math.Floor(p.Lat*factor + 0.5))
+		lng := int64(math.Floor(p.Lng*factor + 0.5))
 
 		encodeInt(lat-prevLat, out)
 		encodeInt(lng-prevLng, out)

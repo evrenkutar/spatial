@@ -11,7 +11,7 @@ import (
 )
 
 func TestPointEncodeExact(t *testing.T) {
-	precision := 1.0e6
+	precision := 6
 	path := []Point{
 		Point{
 			Lat: 38.796006,
@@ -32,7 +32,7 @@ func TestPointEncodeExact(t *testing.T) {
 }
 
 func TestPointEncodingPrecisionRound(t *testing.T) {
-	precision := 1.0e5
+	precision := 5
 	path := []Point{
 		Point{
 			Lat: 38.796006,
@@ -63,7 +63,7 @@ func TestPointEncodingPrecisionRound(t *testing.T) {
 }
 
 func TestPointEncodingLength(t *testing.T) {
-	precision := 1.0e6
+	precision := 6
 	path := []Point{
 		Point{
 			Lat: 38.796006,
