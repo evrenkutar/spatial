@@ -1,5 +1,5 @@
 // Based on https://github.com/jinzhu/gorm/issues/142
-package gormGIS
+package spatial
 
 import (
 	"bytes"
@@ -9,16 +9,16 @@ import (
 	"fmt"
 )
 
-type GeoPoint struct {
+type Point struct {
 	Lng float64 `json:"lng"`
 	Lat float64 `json:"lat"`
 }
 
-func (p *GeoPoint) String() string {
+func (p *Point) String() string {
 	return fmt.Sprintf("SRID=4326;POINT(%v %v)", p.Lng, p.Lat)
 }
 
-func (p *GeoPoint) Scan(val interface{}) error {
+func (p *Point) Scan(val interface{}) error {
 	b, err := hex.DecodeString(string(val.([]uint8)))
 	if err != nil {
 		return err
@@ -51,6 +51,6 @@ func (p *GeoPoint) Scan(val interface{}) error {
 	return nil
 }
 
-func (p GeoPoint) Value() (driver.Value, error) {
+func (p Point) Value() (driver.Value, error) {
 	return p.String(), nil
 }
