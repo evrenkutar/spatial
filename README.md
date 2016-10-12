@@ -1,4 +1,7 @@
-# gormGIS
+# saptial
+
+![](https://travis-ci.org/dewski/spatial.svg?branch=master)
+
 Add simple types to use PostGIS with library gorm for GO lang
 
 Types supported
