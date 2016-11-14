@@ -34,3 +34,22 @@ func TestPointScanning(t *testing.T) {
 	assert.Equal(t, 38.803999, point.Lat)
 	assert.Equal(t, -121.353283, point.Lng)
 }
+
+func TestScanNilPoint(t *testing.T) {
+	var np NullPoint
+	np.Scan(nil)
+
+	assert.False(t, np.Valid)
+}
+
+func TestNullPointScanning(t *testing.T) {
+	raw := "0101000020E6100000E6CE4C309C565EC023827170E9664340"
+	np := &NullPoint{}
+	if err := np.Scan([]byte(raw)); err != nil {
+		assert.Error(t, err)
+	}
+
+	assert.True(t, np.Valid)
+	assert.Equal(t, 38.803999, np.Point.Lat)
+	assert.Equal(t, -121.353283, np.Point.Lng)
+}

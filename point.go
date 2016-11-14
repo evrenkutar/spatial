@@ -54,3 +54,36 @@ func (p *Point) Scan(val interface{}) error {
 func (p Point) Value() (driver.Value, error) {
 	return p.String(), nil
 }
+
+type NullPoint struct {
+	Point Point
+	Valid bool
+}
+
+func (np *NullPoint) Scan(val interface{}) error {
+	if val == nil {
+		np.Point, np.Valid = Point{}, false
+		return nil
+	}
+
+	point := &Point{}
+	err := point.Scan(val)
+	if err != nil {
+		np.Point, np.Valid = Point{}, false
+		return nil
+	}
+	np.Point = Point{
+		Lat: point.Lat,
+		Lng: point.Lng,
+	}
+	np.Valid = true
+
+	return nil
+}
+
+func (np NullPoint) Value() (driver.Value, error) {
+	if !np.Valid {
+		return nil, nil
+	}
+	return np.Point, nil
+}
