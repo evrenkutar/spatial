@@ -1,6 +1,6 @@
 # spatial
 
-![](https://travis-ci.org/dewski/spatial.svg?branch=master)
+![](https://travis-ci.org/dewski/spatial.svg?branch=master) [![](https://godoc.org/github.com/dewski/spatial?status.svg)](http://godoc.org/github.com/dewski/spatial)
 
 Add simple types to use PostGIS with any database driver in golang.
 
