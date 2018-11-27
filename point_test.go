@@ -37,8 +37,8 @@ func TestPointScanning(t *testing.T) {
 
 func TestScanNilPoint(t *testing.T) {
 	var np NullPoint
-	np.Scan(nil)
-
+	err := np.Scan(nil)
+	assert.NoError(t, err)
 	assert.False(t, np.Valid)
 }
 

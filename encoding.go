@@ -3,11 +3,12 @@ package spatial
 import (
 	"bytes"
 	"io"
-	"log"
 	"math"
+
+	"github.com/pkg/errors"
 )
 
-func Decode(points string, precision int) []Point {
+func Decode(points string, precision int) ([]Point, error) {
 	var lat, lng int64
 
 	factor := math.Pow10(precision)
@@ -18,10 +19,10 @@ func Decode(points string, precision int) []Point {
 		dlat, _ := decodeInt(input)
 		dlng, err := decodeInt(input)
 		if err == io.EOF {
-			return path
+			return path, nil
 		}
 		if err != nil {
-			log.Fatal("unexpected err decoding polyline", err)
+			return nil, errors.Wrap(err, "unexpected error decoding polyline")
 		}
 
 		lat, lng = lat+dlat, lng+dlng
