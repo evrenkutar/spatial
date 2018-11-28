@@ -2,11 +2,9 @@ package spatial
 
 import (
 	"encoding/json"
-
-	_ "github.com/lib/pq"
-
 	"testing"
 
+	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -27,7 +25,8 @@ func TestPointEncodeExact(t *testing.T) {
 	assert.NotEqual(t, "", polyline)
 	assert.Equal(t, "km|~hAntmkfFsrNrmjA", polyline)
 
-	points := Decode(polyline, precision)
+	points, err := Decode(polyline, precision)
+	assert.NoError(t, err)
 	assert.Equal(t, path, points)
 }
 
@@ -58,7 +57,8 @@ func TestPointEncodingPrecisionRound(t *testing.T) {
 	assert.NotEqual(t, "", polyline)
 	assert.Equal(t, "ajxkFpgmcV}p@lpF", polyline)
 
-	points := Decode(polyline, precision)
+	points, err := Decode(polyline, precision)
+	assert.NoError(t, err)
 	assert.Equal(t, roundedPath, points)
 }
 
