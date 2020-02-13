@@ -18,13 +18,18 @@ func (p *Point) String() string {
 	return fmt.Sprintf("SRID=4326;POINT(%v %v)", p.Lng, p.Lat)
 }
 
+func getDecodedByType(isString bool, val interface{}) ([]byte, error) {
+	if isString == true {
+		return hex.DecodeString(string(val.(string)))
+	} else {
+		return hex.DecodeString(string(val.([]uint8)))
+	}
+}
+
 func (p *Point) Scan(val interface{}) error {
 	_, isString := val.(string)
-	if isString {
-		b, err := hex.DecodeString(string(val.(string)))
-	} else {
-		b, err := hex.DecodeString(string(val.([]uint8)))
-	}
+	b, err := getDecodedByType(isString, val)
+
 	if err != nil {
 		return err
 	}
